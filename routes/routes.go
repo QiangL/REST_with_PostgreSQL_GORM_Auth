@@ -1,25 +1,29 @@
 package routes
 
 import (
-	"TODO_rest/controllers"
-	"TODO_rest/middleware"
+	"ae86-auth/controllers"
+	"ae86-auth/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
-	todo := router.Group("/todo")
+	todo := router.Group("/ae86")
 	todo.Use(middleware.BasicAuth)
-	todo.GET("/", controllers.GetAllTodos)
-	todo.POST("/", controllers.CreateTodo)
-	todo.GET("/active", controllers.GetActiveTodos)
-	todo.GET("/done", controllers.GetDoneTodos)
-	todo.PATCH("done/:id", controllers.CloseTodo)
+	todo.POST("/", controllers.RedirectRequest)
+	todo.GET("/", controllers.RedirectRequest)
 
-	auth := router.Group("/auth")
-	auth.POST("/signup", controllers.CreateUser)
-	auth.POST("/change-password", middleware.BasicAuth, controllers.ChangePassword)
+	ping := router.Group("/ping")
+	ping.Use(middleware.InternalBasicAuth)
+	ping.GET("/", controllers.Ping)
+	ping.GET("/clearcache", controllers.ClearCache)
+	ping.GET("/setredisratelimit", controllers.SetRedisRateLimit)
+	ping.GET("/adduser", controllers.AddUser)
+	ping.GET("/changepassword", controllers.ChangePassword)
+	ping.GET("/changeratelimit", controllers.ChangeRateLimit)
+	ping.GET("/changeexpiredate", controllers.ChangeExpireDate)
 
 	return router
 }

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"TODO_rest/models"
-	"TODO_rest/routes"
+	"ae86-auth/models"
+	"ae86-auth/routes"
 )
 
 func main() {
@@ -10,5 +10,5 @@ func main() {
 
 	models.ConnectDB()
 
-	router.Run(":8080")
+	router.Run(":8084")
 }
